@@ -77,5 +77,10 @@ namespace pryAgenda
                 MessageBox.Show(ex.Message, "Error de Conexión o Datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void dgvAgenda_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
