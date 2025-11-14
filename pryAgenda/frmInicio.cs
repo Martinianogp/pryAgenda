@@ -29,7 +29,7 @@ namespace pryAgenda
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-             DateTime fechaVencimiento = dtpFecha.Value.Date.AddHours(12);
+            DateTime fechaVencimiento = dtpFecha.Value.Date.AddHours(12);
 
             try
             {
@@ -41,8 +41,10 @@ namespace pryAgenda
                 );
 
                 MessageBox.Show("Actividad registrada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.DialogResult = DialogResult.OK;
-                this.Close();
+
+                
+                AbrirAgenda();
+
             }
             catch (Exception ex)
             {
@@ -53,6 +55,22 @@ namespace pryAgenda
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+        private void AbrirAgenda()
+        {
+            
+            frmAgenda formularioAgenda = new frmAgenda();
+
+            
+            formularioAgenda.Show();
+
+            //Ocultar (no cerrar) el formulario actual           
+            this.Hide();
+        }
+
+        private void btnAbrirAgenda_Click(object sender, EventArgs e)
+        {
+            AbrirAgenda();
         }
     }
 }

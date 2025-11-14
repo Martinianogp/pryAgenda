@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace pryAgenda
 {
     internal class Conexion
     {
-        private string cadenaConexion = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=..\..\Base de Datos\ActividadesDB.accdb;";
+        private string cadenaConexion = "Data Source=SANTIAGO\\SQLEXPRESS;Initial Catalog=AgendaDB;Integrated Security=True;";
 
         public DataTable ObtenerActividades()
         {
@@ -19,34 +20,39 @@ namespace pryAgenda
 
             try
             {
-                using (OleDbConnection conexion = new OleDbConnection(cadenaConexion))
+                // Usar SqlConnection
+                using (SqlConnection conexion = new SqlConnection(cadenaConexion))
                 {
-                    using (OleDbCommand comando = new OleDbCommand(consulta, conexion))
+                    // Usar SqlCommand
+                    using (SqlCommand comando = new SqlCommand(consulta, conexion))
                     {
                         conexion.Open();
-                        OleDbDataAdapter adaptador = new OleDbDataAdapter(comando);
+                        // Usar SqlDataAdapter
+                        SqlDataAdapter adaptador = new SqlDataAdapter(comando);
                         adaptador.Fill(dt);
                     }
                 }
             }
             catch (Exception ex)
             {
-
                 throw new Exception("Error al cargar datos de la base de datos: " + ex.Message);
             }
             return dt;
         }
+    
         public void AgregarActividad(string asunto, DateTime fecha, string observacion)
         {
             string consulta = "INSERT INTO Actividades (Asunto, Fecha, Observacion) VALUES (@asunto, @fecha, @observacion)";
 
             try
             {
-                using (OleDbConnection conexion = new OleDbConnection(cadenaConexion))
+                // Usar SqlConnection
+                using (SqlConnection conexion = new SqlConnection(cadenaConexion))
                 {
-                    using (OleDbCommand comando = new OleDbCommand(consulta, conexion))
+                    // Usar SqlCommand
+                    using (SqlCommand comando = new SqlCommand(consulta, conexion))
                     {
-                        // Nota: OleDb usa el orden posicional de los parámetros
+                        // Se usan parámetros con nombre en SqlClient
                         comando.Parameters.AddWithValue("@asunto", asunto);
                         comando.Parameters.AddWithValue("@fecha", fecha);
                         comando.Parameters.AddWithValue("@observacion", observacion);
@@ -68,11 +74,14 @@ namespace pryAgenda
 
             try
             {
-                using (OleDbConnection conexion = new OleDbConnection(cadenaConexion))
+                // Usar SqlConnection
+                using (SqlConnection conexion = new SqlConnection(cadenaConexion))
                 {
-                    using (OleDbCommand comando = new OleDbCommand(consulta, conexion))
+                    // Usar SqlCommand
+                    using (SqlCommand comando = new SqlCommand(consulta, conexion))
                     {
                         comando.Parameters.AddWithValue("@id", idActividad);
+
                         conexion.Open();
                         comando.ExecuteNonQuery();
                     }
